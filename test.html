@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>简单运动框架实现</title>
+<!--<link type="text/javascript" href="js/move.js">-->
+</head>
+<style>
+*{margin:0;padding:0}
+
+ul li{
+	
+	width:200px;
+	height:100px;
+	margin-bottom:20px;
+	opacity:0.5;
+	filter:alpha(opacity=30);
+	background:red;
+}
+</style>
+
+<script>
+window.onload=function(){
+	var oMove=document.getElementById("move");
+	var list=oMove.getElementsByTagName("li");
+	for(var i=0;i<list.length;i++){
+		list[i].timer=null;        //给每个元素添加定时器，避免争夺定时器冲突
+		list[i].onmouseover=function(){
+				startMove(this,400);
+			}
+		list[i].onmouseout=function(){
+			    startMove(this,200);
+			}
+	}
+}
+</script>
+<body>
+<ul id="move">
+<li>1</li>
+<li>2</li>
+<li>3</li>
+</ul>
+</body>
+</html>
