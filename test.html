@@ -26,14 +26,16 @@ window.onload=function(){
 	var list=oMove.getElementsByTagName("li");
 	for(var i=0;i<list.length;i++){
 		list[i].timer=null;        //给每个元素添加定时器，避免争夺定时器冲突
-		list[i].onmouseover=function(){               //目前有一个不能实现链式运动的BUG！！！！				
-			    startMove(this,{width:400,height:200},function(){
-					startMove(this,{opacity:100});
+		list[i].onmouseover=function(){
+			    var _this=this;   //已修复无法实现链式运动的BUG    原因是当第一个函数运行完毕后，this的对象就变为了window。				
+			    startMove(_this,{width:400,opacity:100},function(){
+					startMove(_this,{height:200});
 					});
 			}
 		list[i].onmouseout=function(){
-			    startMove(this,{width:200,height:100},function(){
-					startMove(this,{opacity:50});
+			    var _this=this;
+			    startMove(_this,{width:200,opacity:50},function(){
+					startMove(_this,{height:100});
 					});
 			}
 	}
