@@ -13,14 +13,14 @@ function getStyle(obj,attr){
 //var timer=null;
 function startMove(obj,json,fn){
 	clearInterval(obj.timer);
-	obj.timer=setInterval(function(){
+    obj.timer=setInterval(function(){
+		var flag=true;       //用于控制所有运动是否全部完成的标识
 		for(var attr in json)
 		{
-			  //  var flag=true;       //用于控制所有运动是否全部完成的标识
 				var cur;             //该属性当前值
 				if(attr == 'opacity')
 				{
-			    	cur=parseFloat(getStyle(obj,attr)*100);
+			    	cur=Math.round(parseFloat(getStyle(obj,attr)*100));
 				}else{
 					cur=parseInt(getStyle(obj,attr));
 				}
@@ -29,30 +29,35 @@ function startMove(obj,json,fn){
 				var speed=(json[attr]-cur)/10;
 				speed=speed>0?Math.ceil(speed):Math.floor(speed);
 			
-				if(cur==json[attr])
+				if(cur!=json[attr])
 				{
-					//flag=false;
-					clearInterval(obj.timer);
-				}
-				else
-				{
+					flag=false;
 					if(attr=='opacity')
 					{
 						obj.style.filter='alpha(opacity='+(cur+speed)+')';
-						obj.style.opacity=Math.round((cur+speed)/100);
+						obj.style.opacity=(cur+speed)/100;
 					}
 					else
 					{
 						obj.style[attr]=cur+speed+'px';
 					}
 				}
-		
+				
+					
+				
+		}
+		if(flag)
+		{	
+			clearInterval(obj.timer);
+			
+			if(fn){
+				fn();
+			}
 		}
 		
 		},30)
-		if(fn){
-			fn();
-		}
+		
+	
 	}
 	
 	
